@@ -11,8 +11,8 @@ public class BasicEnemyBehavior : MonoBehaviour
     public bool isFollowing = false;
 
     public float speed = 4.0f;
-
-
+    public float health = 5.0f;
+    public float maxHealth = 3.0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

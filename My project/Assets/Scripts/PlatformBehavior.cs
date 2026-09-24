@@ -36,5 +36,17 @@ public class PlatformBehavior : MonoBehaviour
                 rb.linearVelocityY = gForce;
             }
         }
+        IEnumerator gravityPlateRising()
+        {
+            yield return new WaitForSeconds(time);
+            rising = true;
+            StartCoroutine("gravityPlateFalling");
+        }
+        IEnumerator gravityPlateFalling()
+        {
+            yield return new WaitForSeconds(time);
+            rising = false;
+            StartCoroutine("gravityPlateRising");
+        }
     }
 }

@@ -10,16 +10,16 @@ public class GameManager : MonoBehaviour
 
     public Image healthBar;
 
-    public TextMeshProUGUI time;
-    public TextMeshProUGUI charge;
+    public TextMeshProUGUI healthCount;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         healthBar = GameObject.Find("healthBar").GetComponent<Image>();
+        healthCount = GameObject.Find("healthCount").GetComponent<TextMeshProUGUI>();
 
-        charge = GameObject.Find("Charge").GetComponent <TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -27,5 +27,10 @@ public class GameManager : MonoBehaviour
     {
         healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
 
+        healthCount.text = "HP: " + player.health + "/" + player.maxHealth;
+        if (player.health <=0)
+        {
+            healthCount.text = "DEAD";
+        }
     }
 }

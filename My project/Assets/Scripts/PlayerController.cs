@@ -12,11 +12,12 @@ public class PlayerController : MonoBehaviour
     public int charge = 3;
 
     public float speed = 5.0f;
+    public float sprintspeed = 10.0f;
     public float jumpHeight = 3.0f;
     public float jumpDetectDistance = 1.0f;
     public float attackTime = 5.0f;
     public float attackCooldownTime = 1.0f;
-    public float fusionDmgInterval = 1.0f;
+    public float fusionDmgInterval = 0.5f;
 
     public bool isAttacking = false;
     public bool canAttack = false;
@@ -51,7 +52,6 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(gameObject);
             
-
         }
 
         jumpRay.origin = transform.position;
@@ -63,10 +63,18 @@ public class PlayerController : MonoBehaviour
     {
         moveInput.x = context.ReadValue<Vector2>().x;
     }
+    public void Sprint(InputAction.CallbackContext context)
+    {
+        moveInput.x = context.ReadValue<Vector2>().x;
+    }
     public void Jump()
     {
         if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDetectDistance))
             rb.AddForceY(jumpHeight, ForceMode2D.Impulse);
+    }
+    public void Dash()
+    {
+        
     }
     public void Attack()
     {
@@ -74,8 +82,16 @@ public class PlayerController : MonoBehaviour
         {
             isAttacking = true;
             currentWeaponObj.transform.GetChild(0).gameObject.SetActive(true);
-            canAttack = false;
+            canAttack = true;
             StartCoroutine("attackDuration");
+
+        }
+    }
+
+    public void Drop()
+    {
+        
+        {
 
         }
     }

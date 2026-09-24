@@ -8,6 +8,7 @@ TagManager:
   - Hazard
   - FusionHazard
   - Gravity Platform
+  - Enemy
   layers:
   - Default
   - TransparentFX
