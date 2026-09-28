@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
         {
             isAttacking = true;
             currentWeaponObj.transform.GetChild(0).gameObject.SetActive(true);
-            canAttack = true;
+            canAttack = false;
             StartCoroutine("attackDuration");
 
         }
@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
 
     public void Drop()
     {
-        
+
         {
 
         }

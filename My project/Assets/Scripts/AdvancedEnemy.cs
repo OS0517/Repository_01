@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class AdvancedEnemy : BasicEnemyBehavior
 {
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        canAttack = true;
+        isAttacking = false;
+        isAttacking = false;
+
     }
 
     // Update is called once per frame

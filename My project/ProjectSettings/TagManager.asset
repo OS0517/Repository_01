@@ -9,6 +9,7 @@ TagManager:
   - FusionHazard
   - Gravity Platform
   - Enemy
+  - Projectile
   layers:
   - Default
   - TransparentFX

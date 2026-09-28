@@ -6,8 +6,7 @@ using UnityEngine;
 public class PlatformBehavior : MonoBehaviour
 {
 
-    public float gForce = 0.01f;
-    public float time = 3.0f;
+    public float time = 10.0f;
 
     public bool rising = false;
 
@@ -19,7 +18,7 @@ public class PlatformBehavior : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         StartCoroutine("gravityPlateRising");
-        rising = false;
+        rising = true;
     }
 
     // Update is called once per frame
@@ -29,24 +28,23 @@ public class PlatformBehavior : MonoBehaviour
         {
             if (rising == true)
             {
-                rb.linearVelocityY = -gForce;
-            }
-            if (rising == false)
-            {
-                rb.linearVelocityY = gForce;
+                rb.gravityScale = -0.02f;
             }
         }
-        IEnumerator gravityPlateRising()
-        {
-            yield return new WaitForSeconds(time);
-            rising = true;
-            StartCoroutine("gravityPlateFalling");
-        }
-        IEnumerator gravityPlateFalling()
-        {
-            yield return new WaitForSeconds(time);
-            rising = false;
-            StartCoroutine("gravityPlateRising");
-        }
+        else
+            rb.gravityScale = 0.02f;
+    }
+
+    IEnumerator gravityPlateRising()
+    {
+        rising = true;
+        yield return new WaitForSeconds(time);
+        StartCoroutine("gravityPlateFalling");
+    }
+    IEnumerator gravityPlateFalling()
+    {
+        rising = false;
+        yield return new WaitForSeconds(time);
+        StartCoroutine("gravityPlateRising");
     }
 }
