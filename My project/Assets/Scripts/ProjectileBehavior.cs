@@ -10,12 +10,23 @@ public class ProjectileBehavior : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        player = GameObject.FindGameObjectsWithTag("Player").
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        rb.linearVelocityX = 1;
+        rb.linearVelocityY = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+      if (collision.gameObject.tag == "Player")
+        {
+            player.health--;
+            Destroy(gameObject);
+        }
     }
 }

@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour
 
         canAttack = true;
     }
- 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Weapon")
@@ -132,7 +132,7 @@ new Quaternion(0, 0, -90f, 90));
             canAttack = true;
         }
 
-         if (collision.gameObject.tag == "Hazard")
+        if (collision.gameObject.tag == "Hazard")
         {
             health--;
         }
@@ -140,6 +140,12 @@ new Quaternion(0, 0, -90f, 90));
         if (collision.gameObject.tag == "FusionHazard")
         {
             health--;
+        }
+
+        if (collision.gameObject.tag == "HealthItem")
+        {
+            health++;
+            
         }
     }
     private void OnCollisionStay2D(Collision2D collision)

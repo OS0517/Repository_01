@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlatformBehavior : MonoBehaviour
 {
 
-    public float time = 10.0f;
+    public float time = 5.0f;
 
     public bool rising = false;
 
@@ -28,11 +28,11 @@ public class PlatformBehavior : MonoBehaviour
         {
             if (rising == true)
             {
-                rb.gravityScale = -0.02f;
+                rb.linearVelocityY = -0.5f;
             }
         }
         else
-            rb.gravityScale = 0.02f;
+            rb.linearVelocityY = 0.5f;
     }
 
     IEnumerator gravityPlateRising()
