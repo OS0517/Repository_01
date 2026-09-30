@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public Image healthBar;
 
     public TextMeshProUGUI healthCount;
+    public TextMeshProUGUI staminaCount;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         healthBar = GameObject.Find("healthBar").GetComponent<Image>();
         healthCount = GameObject.Find("healthCount").GetComponent<TextMeshProUGUI>();
+        staminaCount = GameObject.Find("staminaCount").GetComponent <TextMeshProUGUI>();
 
     }
 
@@ -32,5 +34,6 @@ public class GameManager : MonoBehaviour
         {
             healthCount.text = "DEAD";
         }
+        staminaCount.text = "Stamina: " + player.stamina + "/" + player.maxStamina;
     }
 }

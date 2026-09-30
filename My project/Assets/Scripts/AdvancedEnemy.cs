@@ -18,15 +18,10 @@ public class AdvancedEnemy : BasicEnemyBehavior
     // Update is called once per frame
     void Update()
     {
-        
-        if (isFollowing)
-        {
-            if (player.rb.position.x < rb.position.x)
-        }
-                ]
+       
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if collision
+        
     }
 }
