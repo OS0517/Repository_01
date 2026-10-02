@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2574500258773436059}
   m_Layer: 0
   m_Name: floatingPlatform
-  m_TagString: Untagged
+  m_TagString: gravityPlate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 3562087235839794797}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 13.15, y: -2.29, z: 180}
+  m_LocalPosition: {x: 13.08, y: -2.36, z: 180}
   m_LocalScale: {x: 7.4167, y: 1.0622, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

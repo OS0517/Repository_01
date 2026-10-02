@@ -19,8 +19,8 @@ public class PlayerController : MonoBehaviour
     public float attackTime = 5.0f;
     public float attackCooldownTime = 1.0f;
     public float fusionDmgInterval = 0.5f;
-    public float stamina = 100f;
-    public float maxStamina = 100f;
+    public float stamina = 50f;
+    public float maxStamina = 50f;
     public float staminaRegen = 5.0f;
     public float sprint = 2.0f;
     public float sprintCooldown = 5.0f;
@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     Transform spawnPoint;
     PlayerInput input;
     Rigidbody2D rb;
+    BasicEnemyBehavior enemy;
 
     public Vector2 moveInput = Vector2.zero;
 
@@ -140,12 +141,11 @@ public class PlayerController : MonoBehaviour
 
                 if (!sprinting)
                     canSprint = false;
-
-                else
-                {
-                    if (context.performed)
-                        sprinting = !sprinting;
-                }
+            }
+            else
+            {
+                if (context.performed)
+                    sprinting = !sprinting;
             }
         }
     }

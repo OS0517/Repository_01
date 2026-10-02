@@ -3,15 +3,23 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Playables;
 using UnityEditor;
+using UnityEngine.Android;
 
 public class GameManager : MonoBehaviour
 {
     public PlayerController player;
 
     public Image healthBar;
+    public Image staminaBar;
+    public Image sprintStatus;
+
+    public GameObject pauseMenu;
 
     public TextMeshProUGUI healthCount;
     public TextMeshProUGUI staminaCount;
+
+    public bool paused = false;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,6 +27,7 @@ public class GameManager : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         healthBar = GameObject.Find("healthBar").GetComponent<Image>();
+        staminaBar = GameObject.Find("staminabar").GetComponent<Image>();
         healthCount = GameObject.Find("healthCount").GetComponent<TextMeshProUGUI>();
         staminaCount = GameObject.Find("staminaCount").GetComponent <TextMeshProUGUI>();
 
@@ -35,5 +44,46 @@ public class GameManager : MonoBehaviour
             healthCount.text = "DEAD";
         }
         staminaCount.text = "Stamina: " + player.stamina + "/" + player.maxStamina;
+    }
+
+    public void Pause()
+    {
+        paused = !paused;
+
+        pauseMenu.SetActive(paused);
+
+        Cursor.visible = paused;
+
+        if (paused)
+        {
+            Cursor.lockState = CursorLockMode.None;
+
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+
+            Time.timeScale = 1;
+        }
+    }
+
+    public void LoadLevel()
+    {
+        
+    }
+    public void LoadNextLevel()
+    {
+
+    }
+
+    public void MainMenu()
+    {
+        
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
