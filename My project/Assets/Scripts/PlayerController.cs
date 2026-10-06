@@ -5,6 +5,7 @@ using Unity.Hierarchy;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
     public bool toggleSprint = false;
     public bool regenStamina = false;
     public bool onGround = true;
+    public bool gravitySwitch = false;
 
     Ray2D jumpRay;
     Vector2 moveinput = Vector2.zero;
@@ -123,7 +125,20 @@ public class PlayerController : MonoBehaviour
         }
         rb.linearVelocityX = tempMove.x;
 
+        if (gravitySwitch)
+        {
+            rb.gravityScale = -5;
+            transform.rotation = new Quaternion(0, 0, 180f, 0);
+        }
+        else
+        {
+            rb.gravityScale = 5;
+            transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
+
     }
+    
+    
     public void Move(InputAction.CallbackContext context)
     {
         moveInput.x = context.ReadValue<Vector2>().x;
@@ -151,8 +166,11 @@ public class PlayerController : MonoBehaviour
     }
     public void Jump()
     {
-        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDetectDistance) && onGround)
+        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDetectDistance) && !gravitySwitch)
             rb.AddForceY(jumpHeight, ForceMode2D.Impulse);
+        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDetectDistance) && gravitySwitch)
+            rb.AddForceY(-jumpHeight, ForceMode2D.Impulse);
+
     }
     public void Dash()
     {
@@ -228,6 +246,14 @@ new Quaternion(0, 0, -90f, 90));
         {
             health++;
             
+        }
+        if (collision.gameObject.name == "reverseTerrain")
+        {
+            gravitySwitch = true;
+        }
+        if (collision.gameObject.name == "Terrain")
+        {
+            gravitySwitch = false;
         }
     }
     private void OnCollisionStay2D(Collision2D collision)

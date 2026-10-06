@@ -26,10 +26,12 @@ public class GameManager : MonoBehaviour
     {
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
         healthBar = GameObject.Find("healthBar").GetComponent<Image>();
         staminaBar = GameObject.Find("staminabar").GetComponent<Image>();
+
         healthCount = GameObject.Find("healthCount").GetComponent<TextMeshProUGUI>();
-        staminaCount = GameObject.Find("staminaCount").GetComponent <TextMeshProUGUI>();
+        staminaCount = GameObject.Find("staminaCount").GetComponent<TextMeshProUGUI>();
 
     }
 
@@ -39,51 +41,10 @@ public class GameManager : MonoBehaviour
         healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
 
         healthCount.text = "HP: " + player.health + "/" + player.maxHealth;
-        if (player.health <=0)
+        if (player.health <= 0)
         {
             healthCount.text = "DEAD";
         }
         staminaCount.text = "Stamina: " + player.stamina + "/" + player.maxStamina;
-    }
-
-    public void Pause()
-    {
-        paused = !paused;
-
-        pauseMenu.SetActive(paused);
-
-        Cursor.visible = paused;
-
-        if (paused)
-        {
-            Cursor.lockState = CursorLockMode.None;
-
-            Time.timeScale = 0;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-
-            Time.timeScale = 1;
-        }
-    }
-
-    public void LoadLevel()
-    {
-        
-    }
-    public void LoadNextLevel()
-    {
-
-    }
-
-    public void MainMenu()
-    {
-        
-    }
-
-    public void Quit()
-    {
-        Application.Quit();
     }
 }
