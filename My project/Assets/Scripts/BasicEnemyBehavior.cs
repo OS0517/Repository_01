@@ -34,12 +34,12 @@ public class BasicEnemyBehavior : MonoBehaviour
 
         if (isFollowing)
         {
-            if (player.transform.position.x > transform.position.x)
+            if (player.transform.position.x > transform.position.x && !player.gravitySwitch)
             {
                 rb.linearVelocityX = speed;
             }
 
-            if (player.transform.position.x < transform.position.x)
+            if (player.transform.position.x < transform.position.x && !player.gravitySwitch)
             {
                 rb.linearVelocityX = -speed;
             }

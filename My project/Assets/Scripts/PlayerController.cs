@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 5.0f;
     public float sprintspeed = 10.0f;
     public float jumpHeight = 3.0f;
-    public float jumpDetectDistance = 1.0f;
+    public float jumpDetectDistance = -1.0f;
     public float attackTime = 5.0f;
     public float attackCooldownTime = 1.0f;
     public float fusionDmgInterval = 0.5f;
@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public float sprint = 2.0f;
     public float sprintCooldown = 5.0f;
     public float sprintCost = 20f;
+    public float dashStrength = 20.0f;
 
     public bool isAttacking = false;
     public bool canAttack = false;
@@ -39,14 +40,16 @@ public class PlayerController : MonoBehaviour
     public bool gravitySwitch = false;
 
     Ray2D jumpRay;
+    Ray2D dashRay;
     Vector2 moveinput = Vector2.zero;
 
     GameObject currentWeaponObj;
+    GameObject spawnPoint;
     Transform weaponSlot;
-    Transform spawnPoint;
     PlayerInput input;
     Rigidbody2D rb;
     BasicEnemyBehavior enemy;
+  
 
     public Vector2 moveInput = Vector2.zero;
 
@@ -56,8 +59,8 @@ public class PlayerController : MonoBehaviour
         input = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
         jumpRay = new Ray2D();
+        dashRay = new Ray2D();
         weaponSlot = transform.GetChild(0);
-        spawnPoint = transform.GetChild(1);
 
     }
 
@@ -66,12 +69,24 @@ public class PlayerController : MonoBehaviour
     {
         if (health <= 0)
         {
-            Destroy(gameObject);
+            transform.position = (spawnPoint.transform.position);
+            health = maxHealth;
+            gravitySwitch = false;
             
         }
 
         jumpRay.origin = transform.position;
         jumpRay.direction = transform.up;
+
+        dashRay.origin = transform.position;
+        if (rb.linearVelocityX > 0)
+        {
+            dashRay.direction = transform.right;
+        }
+        if (rb.linearVelocityY < 0)
+        {
+            dashRay.direction = -transform.right;
+        }
 
         Vector2 tempMove = rb.linearVelocity;
 
@@ -174,7 +189,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Dash()
     {
-        
+        rb.AddForceX(dashStrength, ForceMode2D.Impulse);
     }
     public void Attack()
     {
@@ -245,12 +260,13 @@ new Quaternion(0, 0, -90f, 90));
         if (collision.gameObject.tag == "HealthItem")
         {
             health++;
-            
         }
+
         if (collision.gameObject.name == "reverseTerrain")
         {
             gravitySwitch = true;
         }
+
         if (collision.gameObject.name == "Terrain")
         {
             gravitySwitch = false;

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.Playables;
 using UnityEditor;
 using UnityEngine.Android;
+using NUnit.Framework;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,7 +20,6 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI staminaCount;
 
     public bool paused = false;
-
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
