@@ -1,3 +1,4 @@
+using Mono.Cecil.Cil;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
@@ -68,6 +69,12 @@ public class BasicEnemyBehavior : MonoBehaviour
        if (collision.gameObject.tag == "Player")
         {
             rb.linearVelocityX = 0;
+        }
+        if (collision.gameObject.tag == "Weapon")
+        {
+            {
+                health--;
+            }
         }
     }
     private void OnCollisionStay2D(Collision2D collision)

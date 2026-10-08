@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     public float speed = 5.0f;
     public float sprintspeed = 10.0f;
-    public float jumpHeight = 3.0f;
+    public float jumpHeight = 5.0f;
     public float jumpDetectDistance = -1.0f;
     public float attackTime = 5.0f;
     public float attackCooldownTime = 1.0f;
@@ -76,9 +76,12 @@ public class PlayerController : MonoBehaviour
         }
 
         jumpRay.origin = transform.position;
-        jumpRay.direction = transform.up;
+        if (!gravitySwitch)
+            jumpRay.direction = -transform.up;
+        else
+            jumpRay.direction = transform.up;
 
-        dashRay.origin = transform.position;
+            dashRay.origin = transform.position;
         if (rb.linearVelocityX > 0)
         {
             dashRay.direction = transform.right;
@@ -89,8 +92,7 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector2 tempMove = rb.linearVelocity;
-
-        tempMove.x = moveInput.x * speed;
+            tempMove.x = moveInput.x * speed;
 
         if (sprinting)
         {
@@ -144,11 +146,13 @@ public class PlayerController : MonoBehaviour
         {
             rb.gravityScale = -5;
             transform.rotation = new Quaternion(0, 0, 180f, 0);
+            speed = -5.0f;
         }
         else
         {
             rb.gravityScale = 5;
             transform.rotation = new Quaternion(0, 0, 0, 0);
+            speed = 5.0f;
         }
 
     }
@@ -181,15 +185,18 @@ public class PlayerController : MonoBehaviour
     }
     public void Jump()
     {
-        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDetectDistance) && !gravitySwitch)
+        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDetectDistance) && !gravitySwitch&& onGround)
             rb.AddForceY(jumpHeight, ForceMode2D.Impulse);
-        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDetectDistance) && gravitySwitch)
+        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDetectDistance) && gravitySwitch && onGround)
             rb.AddForceY(-jumpHeight, ForceMode2D.Impulse);
 
     }
     public void Dash()
     {
-        rb.AddForceX(dashStrength, ForceMode2D.Impulse);
+        if (rb.linearVelocityX > 0)
+            rb.AddForceX(dashStrength, ForceMode2D.Impulse);
+        if (rb.linearVelocityX < 0)
+            rb.AddForceX(-dashStrength, ForceMode2D.Impulse);
     }
     public void Attack()
     {
@@ -260,6 +267,7 @@ new Quaternion(0, 0, -90f, 90));
         if (collision.gameObject.tag == "HealthItem")
         {
             health++;
+            Destroy(gameObject);
         }
 
         if (collision.gameObject.name == "reverseTerrain")
@@ -270,6 +278,10 @@ new Quaternion(0, 0, -90f, 90));
         if (collision.gameObject.name == "Terrain")
         {
             gravitySwitch = false;
+        }
+        if (collision.gameObject)
+        {
+            onGround = true;
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -282,6 +294,10 @@ new Quaternion(0, 0, -90f, 90));
                 StartCoroutine("fusionDmgCooldown");
             }
         }
+        if (collision.gameObject)
+        {
+            onGround = true;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -293,6 +309,10 @@ new Quaternion(0, 0, -90f, 90));
                 StopCoroutine("fusionDmgCooldown");
                 fusionDmg = false;
             }
+        }
+        if (collision.gameObject)
+        {
+            onGround = false;
         }
     }
     IEnumerator fusionDmgCooldown()

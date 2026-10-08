@@ -9,36 +9,35 @@ using NUnit.Framework;
 public class GameManager : MonoBehaviour
 {
     public PlayerController player;
-
+    public ProjectileBehavior projectile;
     public Image healthBar;
     public Image staminaBar;
-    public Image sprintStatus;
-
-    public GameObject pauseMenu;
 
     public TextMeshProUGUI healthCount;
     public TextMeshProUGUI staminaCount;
+    public TextMeshProUGUI projectileAngleDisplay;
 
     public bool paused = false;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        projectile = GameObject.Find("Projectile").GetComponent<ProjectileBehavior>();
 
         healthBar = GameObject.Find("healthBar").GetComponent<Image>();
-        staminaBar = GameObject.Find("staminabar").GetComponent<Image>();
+        staminaBar = GameObject.Find("staminaBar").GetComponent <Image>();
 
         healthCount = GameObject.Find("healthCount").GetComponent<TextMeshProUGUI>();
         staminaCount = GameObject.Find("staminaCount").GetComponent<TextMeshProUGUI>();
 
     }
 
-    // Update is called once per frame
-    void Update()
+// Update is called once per frame
+void Update()
     {
-        healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
 
         healthCount.text = "HP: " + player.health + "/" + player.maxHealth;
         if (player.health <= 0)
@@ -46,5 +45,8 @@ public class GameManager : MonoBehaviour
             healthCount.text = "DEAD";
         }
         staminaCount.text = "Stamina: " + player.stamina + "/" + player.maxStamina;
+
+        healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
+        staminaBar.fillAmount = (float)player.stamina / (float)player.maxStamina;
     }
 }
