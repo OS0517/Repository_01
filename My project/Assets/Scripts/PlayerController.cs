@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public int charge = 3;
 
     public float speed = 5.0f;
+	public float playerGravity = 3.0f;
     public float sprintspeed = 10.0f;
     public float jumpHeight = 3.0f;
     public float jumpDetectDistance = 1.0f;
@@ -26,6 +27,9 @@ public class PlayerController : MonoBehaviour
     public float sprint = 2.0f;
     public float sprintCooldown = 5.0f;
     public float sprintCost = 20f;
+	public float dashStrength = 10.0f;
+	public float dashTime = 1.0f;
+	public float dashCooldown = 2.0f;
 
     public bool isAttacking = false;
     public bool canAttack = false;
@@ -35,6 +39,8 @@ public class PlayerController : MonoBehaviour
     public bool sprintLock = false;
     public bool toggleSprint = false;
     public bool regenStamina = false;
+	public bool canDash = true;
+	public bool isDashing = false;
     public bool onGround = true;
     public bool gravitySwitch = false;
 
@@ -72,6 +78,7 @@ public class PlayerController : MonoBehaviour
 
         jumpRay.origin = transform.position;
         jumpRay.direction = transform.up;
+		dash.direction = rb.linearVelocityX
 
         Vector2 tempMove = rb.linearVelocity;
 
@@ -127,12 +134,10 @@ public class PlayerController : MonoBehaviour
 
         if (gravitySwitch)
         {
-            rb.gravityScale = -5;
             transform.rotation = Quaternion.Slerp(transform.rotation, new Quaternion(0, 0, 180f, 0), Time.deltaTime * rotationSpeed);
         }
         else
         {
-            rb.gravityScale = 5;
             transform.rotation = Quaternion.Slerp(transform.rotation, new Quaternion(0, 0, 0, 0), Time.deltaTime * rotationSpeed);
         }
 
@@ -174,7 +179,24 @@ public class PlayerController : MonoBehaviour
     }
     public void Dash()
     {
-        
+        if (canDash)
+		{
+			if (rb.linearVelocityX > 0)
+			{
+				isDashing = true;
+				canDash = false;
+				var originalGravity(float) = rb.gravityScale;
+				rb.gravityScale = 0;
+				rb.linearVelocity = Vector2.zero;
+				rb.linearVelocityX = dashStrength * dash.direction
+				
+				return new WaitForSeconds(dashTime)
+				
+				isDashing = false;
+				rb.gravityScale = originalGravity.
+				StartCoroutine("dashCooldown");
+			}
+		}
     }
     public void Attack()
     {
@@ -250,10 +272,12 @@ new Quaternion(0, 0, -90f, 90));
         if (collision.gameObject.name == "reverseTerrain")
         {
             gravitySwitch = true;
+			
         }
         if (collision.gameObject.name == "Terrain")
         {
             gravitySwitch = false;
+			
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -299,5 +323,10 @@ new Quaternion(0, 0, -90f, 90));
         regenStamina = true;
         sprintLock = false;
     }
+	IEnumerator dashCooldown()
+	{
+		yield return new WaitForSeconds(dashCooldown)
+		canDash = true;
+	}
 
 }
