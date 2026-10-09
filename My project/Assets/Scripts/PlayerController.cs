@@ -128,12 +128,12 @@ public class PlayerController : MonoBehaviour
         if (gravitySwitch)
         {
             rb.gravityScale = -5;
-            transform.rotation = new Quaternion(0, 0, 180f, 0);
+            transform.rotation = Quaternion.Slerp(transform.rotation, new Quaternion(0, 0, 180f, 0), Time.deltaTime * rotationSpeed);
         }
         else
         {
             rb.gravityScale = 5;
-            transform.rotation = new Quaternion(0, 0, 0, 0);
+            transform.rotation = Quaternion.Slerp(transform.rotation, new Quaternion(0, 0, 0, 0), Time.deltaTime * rotationSpeed);
         }
 
     }
