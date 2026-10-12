@@ -36,14 +36,15 @@ public class GameManager : MonoBehaviour
             pauseMenu = GameObject.FindGameObjectWithTag("Pause");
             pauseMenu.SetActive(false);
 
-            healthBar = GameObject.Find("healthBar").GetComponent<Image>();
-            staminaBar = GameObject.Find("staminaBar").GetComponent <Image>();
-
-            healthCount = GameObject.Find("healthCount").GetComponent<TextMeshProUGUI>();
-            staminaCount = GameObject.Find("staminaCount").GetComponent<TextMeshProUGUI>();
         }
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
-        
+        healthBar = GameObject.Find("healthBar").GetComponent<Image>();
+        staminaBar = GameObject.Find("staminaBar").GetComponent<Image>();
+
+        healthCount = GameObject.Find("healthCount").GetComponent<TextMeshProUGUI>();
+        staminaCount = GameObject.Find("staminaCount").GetComponent<TextMeshProUGUI>();
+
 
     }
 
@@ -54,12 +55,12 @@ void Update()
 
         staminaBar.fillAmount = (float)player.stamina / (float)player.maxStamina;
 
-        healthCount.text = "HP: " + player.health + "/" + player.maxHealth;
+        healthCount.text = "HP: " + (int)player.health + "/" + (int)player.maxHealth;
         if (player.health <= 0)
         {
             healthCount.text = "DEAD";
         }
-        staminaCount.text = "Stamina: " + player.stamina + "/" + player.maxStamina;
+        staminaCount.text = "Stamina: " + (int)player.stamina + "/" + (int)player.maxStamina;
 
     }
     public void Pause()

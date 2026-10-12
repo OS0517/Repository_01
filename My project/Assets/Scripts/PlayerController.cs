@@ -87,16 +87,6 @@ public class PlayerController : MonoBehaviour
         else
             jumpRay.direction = transform.up;
 
-            dashRay.origin = transform.position;
-        if (rb.linearVelocityX > 0)
-        {
-            dashRay.direction = transform.right;
-        }
-        if (rb.linearVelocityY < 0)
-        {
-            dashRay.direction = -transform.right;
-        }
-
         Vector2 tempMove = rb.linearVelocity;
             tempMove.x = moveInput.x * speed;
 
@@ -208,7 +198,7 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = 0;
             rb.linearVelocityY = 0;
 
-            rb.linearVelocityX = 20f;
+            rb.linearVelocityX = speed * dashStrength;
             stamina = stamina - dashCost;
             new WaitForSeconds(dashTime);
 
