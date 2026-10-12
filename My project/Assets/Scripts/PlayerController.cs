@@ -2,6 +2,7 @@ using NUnit.Framework.Constraints;
 using System;
 using System.Collections;
 using Unity.Hierarchy;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
@@ -27,6 +28,10 @@ public class PlayerController : MonoBehaviour
     public float sprintCooldown = 5.0f;
     public float sprintCost = 20f;
     public float dashStrength = 20.0f;
+    public float dashTime = 3.0f;
+    public float dashCost = 33.3f;
+    public float dashCooldownTime = 2.0f;
+    public float rotationSpeed = 0.1f;
 
     public bool isAttacking = false;
     public bool canAttack = false;
@@ -35,9 +40,12 @@ public class PlayerController : MonoBehaviour
     public bool sprinting = false;
     public bool sprintLock = false;
     public bool toggleSprint = false;
+    public bool isDashing = false;
+    public bool canDash = true;
     public bool regenStamina = false;
     public bool onGround = true;
     public bool gravitySwitch = false;
+    public bool doubleJump = true;
 
     Ray2D jumpRay;
     Ray2D dashRay;
@@ -69,9 +77,7 @@ public class PlayerController : MonoBehaviour
     {
         if (health <= 0)
         {
-            transform.position = (spawnPoint.transform.position);
-            health = maxHealth;
-            gravitySwitch = false;
+            Destroy(gameObject);
             
         }
 
@@ -184,19 +190,35 @@ public class PlayerController : MonoBehaviour
         }
     }
     public void Jump()
-    {
-        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDetectDistance) && !gravitySwitch&& onGround)
+    { 
+        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDetectDistance) && !gravitySwitch && onGround)
             rb.AddForceY(jumpHeight, ForceMode2D.Impulse);
+
         if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDetectDistance) && gravitySwitch && onGround)
             rb.AddForceY(-jumpHeight, ForceMode2D.Impulse);
 
     }
     public void Dash()
     {
-        if (rb.linearVelocityX > 0)
-            rb.AddForceX(dashStrength, ForceMode2D.Impulse);
-        if (rb.linearVelocityX < 0)
-            rb.AddForceX(-dashStrength, ForceMode2D.Impulse);
+        if (canDash)
+        {
+            var originalGravity = rb.gravityScale;
+            isDashing = true;
+            canDash = false;
+            rb.gravityScale = 0;
+            rb.linearVelocityY = 0;
+
+            rb.linearVelocityX = 20f;
+            stamina = stamina - dashCost;
+            new WaitForSeconds(dashTime);
+
+            rb.gravityScale = originalGravity;
+            canDash = false;
+            isDashing = false;
+            StartCoroutine("dashCooldown");
+            regenStamina = true;
+            
+        }
     }
     public void Attack()
     {
@@ -335,5 +357,9 @@ new Quaternion(0, 0, -90f, 90));
         regenStamina = true;
         sprintLock = false;
     }
-
+    IEnumerator dashCooldown()
+    {
+        yield return new WaitForSeconds(dashCooldownTime);
+        canDash = true;
+    }
 }

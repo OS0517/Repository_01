@@ -2,10 +2,6 @@ using UnityEngine;
 
 public class AdvancedEnemy : BasicEnemyBehavior
 {
-
-    Rigidbody2D rb;
-    PlayerController player; 
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
