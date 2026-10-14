@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     public float sprintCost = 20f;
 	public float dashStrength = 10.0f;
 	public float dashTime = 1.0f;
-	public float dashCooldown = 2.0f;
+	public float dashCooldownTime = 2.0f;
 
     public bool isAttacking = false;
     public bool canAttack = false;
@@ -78,7 +78,6 @@ public class PlayerController : MonoBehaviour
 
         jumpRay.origin = transform.position;
         jumpRay.direction = transform.up;
-		dash.direction = rb.linearVelocityX
 
         Vector2 tempMove = rb.linearVelocity;
 
@@ -134,11 +133,13 @@ public class PlayerController : MonoBehaviour
 
         if (gravitySwitch)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, new Quaternion(0, 0, 180f, 0), Time.deltaTime * rotationSpeed);
+            transform.rotation = new Quaternion(0, 0, 180f, 0);
+            rb.gravityScale = -playerGravity;
         }
         else
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, new Quaternion(0, 0, 0, 0), Time.deltaTime * rotationSpeed);
+            transform.rotation = new Quaternion(0, 0, 0, 0);
+            rb.gravityScale = playerGravity;
         }
 
     }
@@ -185,15 +186,15 @@ public class PlayerController : MonoBehaviour
 			{
 				isDashing = true;
 				canDash = false;
-				var originalGravity(float) = rb.gravityScale;
+				float originalGravity = rb.gravityScale;
 				rb.gravityScale = 0;
-				rb.linearVelocity = Vector2.zero;
-				rb.linearVelocityX = dashStrength * dash.direction
+				rb.linearVelocityY = 0;
+                rb.linearVelocityX = dashStrength * rb.linearVelocityX;
 				
-				return new WaitForSeconds(dashTime)
+				new WaitForSeconds(dashTime);
 				
 				isDashing = false;
-				rb.gravityScale = originalGravity.
+                rb.gravityScale = originalGravity;
 				StartCoroutine("dashCooldown");
 			}
 		}
@@ -325,7 +326,7 @@ new Quaternion(0, 0, -90f, 90));
     }
 	IEnumerator dashCooldown()
 	{
-		yield return new WaitForSeconds(dashCooldown)
+        yield return new WaitForSeconds(dashCooldownTime);
 		canDash = true;
 	}
 

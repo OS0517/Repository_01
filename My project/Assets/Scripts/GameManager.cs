@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
+        staminaBar.fillAmount = (float)player.stamina / (float)player.maxStamina;
 
         healthCount.text = "HP: " + player.health + "/" + player.maxHealth;
         if (player.health <= 0)
@@ -46,5 +47,17 @@ public class GameManager : MonoBehaviour
             healthCount.text = "DEAD";
         }
         staminaCount.text = "Stamina: " + player.stamina + "/" + player.maxStamina;
+    }
+    public void LoadLevel()
+    {
+
+    }
+    public void LoadNextLevel()
+    {
+
+    }
+    public void MainMenu()
+    {
+
     }
 }
