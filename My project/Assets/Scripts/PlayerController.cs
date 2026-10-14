@@ -133,11 +133,13 @@ public class PlayerController : MonoBehaviour
 
         if (gravitySwitch)
         {
+            
             transform.rotation = new Quaternion(0, 0, 180f, 0);
             rb.gravityScale = -playerGravity;
         }
         else
         {
+
             transform.rotation = new Quaternion(0, 0, 0, 0);
             rb.gravityScale = playerGravity;
         }
