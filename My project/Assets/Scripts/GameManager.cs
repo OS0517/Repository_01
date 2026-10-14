@@ -38,13 +38,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
-
         healthCount.text = "HP: " + player.health + "/" + player.maxHealth;
         if (player.health <= 0)
         {
             healthCount.text = "DEAD";
         }
         staminaCount.text = "Stamina: " + player.stamina + "/" + player.maxStamina;
+		
+		healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
+		
     }
 }
