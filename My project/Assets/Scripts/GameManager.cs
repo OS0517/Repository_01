@@ -27,7 +27,11 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
 
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+
+
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
             pauseMenu = GameObject.FindGameObjectWithTag("Pause");
             pauseMenu.SetActive(false);
@@ -50,11 +54,47 @@ void Update()
         healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
         staminaBar.fillAmount = (float)player.stamina / (float)player.maxStamina;
 
-        healthCount.text = "HP: " + player.health + "/" + player.maxHealth;
+        healthCount.text = "HP: " + (int)player.health + "/" + (int)player.maxHealth;
         if (player.health <= 0)
         {
             healthCount.text = "DEAD";
         }
-        staminaCount.text = "Stamina: " + player.stamina + "/" + player.maxStamina;
+        staminaCount.text = "Stamina: " + (int)player.stamina + "/" + (int)player.maxStamina;
+
+    }
+    public void Pause()
+    {
+        paused = !paused;
+
+        pauseMenu.SetActive(paused);
+
+        if (paused)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+    }
+    public void LoadLevel(int levelID)
+    {
+        if (levelID >= SceneManager.sceneCountInBuildSettings)
+            Debug.Log("Level ID is too high: " + levelID);
+        else
+            SceneManager.LoadScene(levelID);
+    }
+    public void LoadNextLevel()
+    {
+        LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    public void MainMenu()
+    {
+        LoadLevel(0);
+    }
+    public void Quit()
+    {
+        Application.Quit();
+
     }
 }

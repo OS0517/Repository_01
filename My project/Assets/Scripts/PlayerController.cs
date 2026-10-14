@@ -44,8 +44,6 @@ public class PlayerController : MonoBehaviour
     public bool isDashing = false;
     public bool canDash = true;
     public bool regenStamina = false;
-	public bool canDash = true;
-	public bool isDashing = false;
     public bool onGround = true;
     public bool gravitySwitch = false;
     public bool doubleJump = true;
@@ -143,13 +141,13 @@ public class PlayerController : MonoBehaviour
 
         if (gravitySwitch)
         {
-            
+            speed = -5.0f;
             transform.rotation = new Quaternion(0, 0, 180f, 0);
             rb.gravityScale = -playerGravity;
         }
         else
         {
-
+            speed = 5.0f;
             transform.rotation = new Quaternion(0, 0, 0, 0);
             rb.gravityScale = playerGravity;
         }

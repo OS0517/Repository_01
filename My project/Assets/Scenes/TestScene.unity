@@ -498,7 +498,6 @@ RectTransform:
   - {fileID: 2108461806}
   - {fileID: 1101520869}
   - {fileID: 1237042318}
-  - {fileID: 1627711570}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2748,7 +2747,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 62.16, y: 15.1, z: -10}
+  m_LocalPosition: {x: 66.06, y: 15.66, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8134,7 +8133,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1627711569}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8143,12 +8142,12 @@ RectTransform:
   - {fileID: 1082837284}
   - {fileID: 1189838506}
   - {fileID: 1074015281}
-  m_Father: {fileID: 74774640}
+  m_Father: {fileID: 1769322897}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 704.4276, y: 375.3891}
+  m_SizeDelta: {x: 1452, y: 737}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1627711571
 MonoBehaviour:
@@ -8758,10 +8757,9 @@ MonoBehaviour:
   player: {fileID: 0}
   healthBar: {fileID: 1195474507}
   staminaBar: {fileID: 1101520870}
-  sprintStatus: {fileID: 0}
-  pauseMenu: {fileID: 0}
   healthCount: {fileID: 2108461807}
   staminaCount: {fileID: 1237042319}
+  pauseMenu: {fileID: 0}
   paused: 0
 --- !u!4 &1769322897
 Transform:
@@ -8777,6 +8775,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2012220324}
+  - {fileID: 1627711570}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1780371891
@@ -10861,13 +10860,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4816877127953831553, guid: a4d8e74a1f812364aaaa60a735321213, type: 3}
+      propertyPath: jumpHeight
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5224722512426276664, guid: a4d8e74a1f812364aaaa60a735321213, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 62.16
+      value: 66.06
       objectReference: {fileID: 0}
     - target: {fileID: 5224722512426276664, guid: a4d8e74a1f812364aaaa60a735321213, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15.1
+      value: 15.66
       objectReference: {fileID: 0}
     - target: {fileID: 5224722512426276664, guid: a4d8e74a1f812364aaaa60a735321213, type: 3}
       propertyPath: m_LocalPosition.z
