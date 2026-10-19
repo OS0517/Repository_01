@@ -2,6 +2,7 @@ using NUnit.Framework.Constraints;
 using System;
 using System.Collections;
 using Unity.Hierarchy;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
@@ -16,8 +17,8 @@ public class PlayerController : MonoBehaviour
     public float speed = 5.0f;
 	public float playerGravity = 3.0f;
     public float sprintspeed = 10.0f;
-    public float jumpHeight = 3.0f;
-    public float jumpDetectDistance = 1.0f;
+    public float jumpHeight = 5.0f;
+    public float jumpDetectDistance = -1.0f;
     public float attackTime = 5.0f;
     public float attackCooldownTime = 1.0f;
     public float fusionDmgInterval = 0.5f;
@@ -27,9 +28,11 @@ public class PlayerController : MonoBehaviour
     public float sprint = 2.0f;
     public float sprintCooldown = 5.0f;
     public float sprintCost = 20f;
-	public float dashStrength = 10.0f;
-	public float dashTime = 1.0f;
-	public float dashCooldownTime = 2.0f;
+    public float dashStrength = 20.0f;
+    public float dashTime = 3.0f;
+    public float dashCost = 33.3f;
+    public float dashCooldownTime = 2.0f;
+    public float rotationSpeed = 0.1f;
 
     public bool isAttacking = false;
     public bool canAttack = false;
@@ -38,21 +41,23 @@ public class PlayerController : MonoBehaviour
     public bool sprinting = false;
     public bool sprintLock = false;
     public bool toggleSprint = false;
+    public bool isDashing = false;
+    public bool canDash = true;
     public bool regenStamina = false;
-	public bool canDash = true;
-	public bool isDashing = false;
     public bool onGround = true;
     public bool gravitySwitch = false;
+    public bool doubleJump = true;
 
     Ray2D jumpRay;
     Vector2 moveinput = Vector2.zero;
 
     GameObject currentWeaponObj;
+    GameObject spawnPoint;
     Transform weaponSlot;
-    Transform spawnPoint;
     PlayerInput input;
     Rigidbody2D rb;
     BasicEnemyBehavior enemy;
+  
 
     public Vector2 moveInput = Vector2.zero;
 
@@ -63,7 +68,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         jumpRay = new Ray2D();
         weaponSlot = transform.GetChild(0);
-        spawnPoint = transform.GetChild(1);
 
     }
 
@@ -77,11 +81,13 @@ public class PlayerController : MonoBehaviour
         }
 
         jumpRay.origin = transform.position;
-        jumpRay.direction = transform.up;
+        if (!gravitySwitch)
+            jumpRay.direction = -transform.up;
+        else
+            jumpRay.direction = transform.up;
 
         Vector2 tempMove = rb.linearVelocity;
-
-        tempMove.x = moveInput.x * speed;
+            tempMove.x = moveInput.x * speed;
 
         if (sprinting)
         {
@@ -133,18 +139,27 @@ public class PlayerController : MonoBehaviour
 
         if (gravitySwitch)
         {
-            
+            speed = -5.0f;
             transform.rotation = new Quaternion(0, 0, 180f, 0);
             rb.gravityScale = -playerGravity;
         }
         else
         {
-
+            speed = 5.0f;
             transform.rotation = new Quaternion(0, 0, 0, 0);
             rb.gravityScale = playerGravity;
         }
 
+        if (rb.linearVelocityX > 0)
+        {
+            
+        }
+        if (rb.linearVelocityX < 0)
+        {
+            
+        }
     }
+
     
     
     public void Move(InputAction.CallbackContext context)
@@ -173,10 +188,11 @@ public class PlayerController : MonoBehaviour
         }
     }
     public void Jump()
-    {
-        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDetectDistance) && !gravitySwitch)
+    { 
+        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDetectDistance) && !gravitySwitch && onGround)
             rb.AddForceY(jumpHeight, ForceMode2D.Impulse);
-        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDetectDistance) && gravitySwitch)
+
+        if (Physics2D.Raycast(jumpRay.origin, jumpRay.direction, jumpDetectDistance) && gravitySwitch && onGround)
             rb.AddForceY(-jumpHeight, ForceMode2D.Impulse);
 
     }
@@ -270,17 +286,23 @@ new Quaternion(0, 0, -90f, 90));
         if (collision.gameObject.tag == "HealthItem")
         {
             health++;
-            
+            Destroy(gameObject);
         }
+
         if (collision.gameObject.name == "reverseTerrain")
         {
             gravitySwitch = true;
 			
         }
+
         if (collision.gameObject.name == "Terrain")
         {
             gravitySwitch = false;
 			
+        }
+        if (collision.gameObject)
+        {
+            onGround = true;
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -293,6 +315,10 @@ new Quaternion(0, 0, -90f, 90));
                 StartCoroutine("fusionDmgCooldown");
             }
         }
+        if (collision.gameObject)
+        {
+            onGround = true;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -304,6 +330,10 @@ new Quaternion(0, 0, -90f, 90));
                 StopCoroutine("fusionDmgCooldown");
                 fusionDmg = false;
             }
+        }
+        if (collision.gameObject)
+        {
+            onGround = false;
         }
     }
     IEnumerator fusionDmgCooldown()
@@ -326,10 +356,9 @@ new Quaternion(0, 0, -90f, 90));
         regenStamina = true;
         sprintLock = false;
     }
-	IEnumerator dashCooldown()
-	{
+    IEnumerator dashCooldown()
+    {
         yield return new WaitForSeconds(dashCooldownTime);
-		canDash = true;
-	}
-
+        canDash = true;
+    }
 }

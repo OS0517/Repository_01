@@ -4,7 +4,9 @@ using TMPro;
 using UnityEngine.Playables;
 using UnityEditor;
 using UnityEngine.Android;
+using NUnit.Framework;
 using UnityEngine.SceneManagement;
+using JetBrains.Annotations;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,21 +14,29 @@ public class GameManager : MonoBehaviour
 
     public Image healthBar;
     public Image staminaBar;
-    public Image sprintStatus;
-
-    public GameObject pauseMenu;
 
     public TextMeshProUGUI healthCount;
     public TextMeshProUGUI staminaCount;
 
-    public bool paused = false;
+    public GameObject pauseMenu;
 
+    public bool paused = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Time.timeScale = 1;
+
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
 
 
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
+            pauseMenu = GameObject.FindGameObjectWithTag("Pause");
+            pauseMenu.SetActive(false);
+
+        }
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         healthBar = GameObject.Find("healthBar").GetComponent<Image>();
@@ -35,10 +45,11 @@ public class GameManager : MonoBehaviour
         healthCount = GameObject.Find("healthCount").GetComponent<TextMeshProUGUI>();
         staminaCount = GameObject.Find("staminaCount").GetComponent<TextMeshProUGUI>();
 
+
     }
 
-    // Update is called once per frame
-    void Update()
+// Update is called once per frame
+void Update()
     {
 
         healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
@@ -54,8 +65,8 @@ public class GameManager : MonoBehaviour
 		healthBar.fillAmount = (float)player.health / (float)player.maxHealth;
 		
         staminaCount.text = "Stamina: " + (int)player.stamina + "/" + (int)player.maxStamina;
-    }
 
+    }
     public void Pause()
     {
         paused = !paused;
@@ -64,17 +75,12 @@ public class GameManager : MonoBehaviour
 
         if (paused)
         {
-            Cursor.lockState = CursorLockMode.None;
-
-            Time.timeScale = 0f;
+            Time.timeScale = 0;
         }
         else
         {
-            Cursor.lockState = CursorLockMode.Locked;
-
-            Time.timeScale = 1f;
+            Time.timeScale = 1;
         }
-        
     }
     public void LoadLevel(int levelID)
     {
@@ -94,5 +100,6 @@ public class GameManager : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+
     }
 }

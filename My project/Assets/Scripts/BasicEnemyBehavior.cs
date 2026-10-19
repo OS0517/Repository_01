@@ -6,6 +6,8 @@ using UnityEngine.Rendering.UnifiedRayTracing;
 
 public class BasicEnemyBehavior : MonoBehaviour
 {
+    Animator anim;
+    Sprite sprite;
 
     public PlayerController player;
     public Rigidbody2D rb;
@@ -34,12 +36,12 @@ public class BasicEnemyBehavior : MonoBehaviour
 
         if (isFollowing)
         {
-            if (player.transform.position.x > transform.position.x)
+            if (player.transform.position.x > transform.position.x && !player.gravitySwitch)
             {
                 rb.linearVelocityX = speed;
             }
 
-            if (player.transform.position.x < transform.position.x)
+            if (player.transform.position.x < transform.position.x && !player.gravitySwitch)
             {
                 rb.linearVelocityX = -speed;
             }
@@ -68,6 +70,12 @@ public class BasicEnemyBehavior : MonoBehaviour
        if (collision.gameObject.tag == "Player")
         {
             rb.linearVelocityX = 0;
+        }
+        if (collision.gameObject.tag == "Weapon")
+        {
+            {
+                health--;
+            }
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
