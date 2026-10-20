@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     public bool doubleJump = true;
 
     Ray2D jumpRay;
+    Ray2D dashRay;
     Vector2 moveinput = Vector2.zero;
 
     GameObject currentWeaponObj;
@@ -67,6 +68,7 @@ public class PlayerController : MonoBehaviour
         input = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
         jumpRay = new Ray2D();
+        dashRay = new Ray2D();
         weaponSlot = transform.GetChild(0);
 
     }
@@ -150,16 +152,7 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = playerGravity;
         }
 
-        if (rb.linearVelocityX > 0)
-        {
-            
-        }
-        if (rb.linearVelocityX < 0)
-        {
-            
-        }
     }
-
     
     
     public void Move(InputAction.CallbackContext context)
