@@ -6,6 +6,8 @@ using UnityEngine.Rendering.UnifiedRayTracing;
 
 public class BasicEnemyBehavior : MonoBehaviour
 {
+    Animator anim;
+    Sprite sprite;
 
     public PlayerController player;
     public Rigidbody2D rb;
