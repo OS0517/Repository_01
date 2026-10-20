@@ -12,11 +12,13 @@ public class PlatformBehavior : MonoBehaviour
 
     public Rigidbody2D rb;
     public SpriteRenderer sr;
+    public Rigidbody2D gravityPlate;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        gravityPlate = GameObject.FindGameObjectWithTag("gravityPlate").GetComponent<Rigidbody2D>();
         StartCoroutine("gravityPlateRising");
         rising = true;
     }

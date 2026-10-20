@@ -57,6 +57,9 @@ public class PlayerController : MonoBehaviour
     PlayerInput input;
     Rigidbody2D rb;
     BasicEnemyBehavior enemy;
+    PlatformBehavior vanishingPlate;
+    GameManager gm;
+    Animator myPlayerAnim;
   
 
     public Vector2 moveInput = Vector2.zero;
@@ -66,6 +69,8 @@ public class PlayerController : MonoBehaviour
     {
         input = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
+        gm = GetComponent<GameManager>();
+        vanishingPlate = GameObject.FindGameObjectWithTag("vanishingPlate").GetComponent<PlatformBehavior>();
         jumpRay = new Ray2D();
         weaponSlot = transform.GetChild(0);
 
@@ -236,6 +241,10 @@ public class PlayerController : MonoBehaviour
 
         }
     }
+    public void GravitySwitch()
+    {
+        
+    }
 
     IEnumerator attackDuration()
     {
@@ -289,20 +298,14 @@ new Quaternion(0, 0, -90f, 90));
             Destroy(gameObject);
         }
 
-        if (collision.gameObject.name == "reverseTerrain")
-        {
-            gravitySwitch = true;
-			
-        }
-
-        if (collision.gameObject.name == "Terrain")
-        {
-            gravitySwitch = false;
-			
-        }
         if (collision.gameObject)
         {
             onGround = true;
+        }
+
+        if (collision.gameObject.tag == "vanishingPlate")
+        {
+            vanishingPlate.rb.simulated = false;
         }
     }
     private void OnCollisionStay2D(Collision2D collision)

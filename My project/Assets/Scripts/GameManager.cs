@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public GameObject pauseMenu;
 
     public bool paused = false;
+    public bool gameOver = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

@@ -188,3 +188,4 @@ MonoBehaviour:
   rising: 1
   rb: {fileID: 0}
   sr: {fileID: 0}
+  gravityPlate: {fileID: 0}
