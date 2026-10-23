@@ -10,6 +10,7 @@ public class BasicEnemyBehavior : MonoBehaviour
 
     public PlayerController player;
     public Rigidbody2D rb;
+    public AttackZoneScript attackZone;
 
     public bool isFollowing = false;
     public bool canAttack = true;
@@ -26,7 +27,6 @@ public class BasicEnemyBehavior : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -34,7 +34,7 @@ public class BasicEnemyBehavior : MonoBehaviour
     void Update()
     {
 
-        if (isFollowing)
+        if (isFollowing && !isAttacking)
         {
             if (player.transform.position.x > transform.position.x && !player.gravitySwitch)
             {
@@ -82,7 +82,7 @@ public class BasicEnemyBehavior : MonoBehaviour
     {
         if (canAttack)
         {
-            if (collision.gameObject.tag == "Player")
+            if (collision.gameObject.tag == "Player" && isAttacking)
             {
             isAttacking = true;
             rb.linearVelocityX = 0;
@@ -90,6 +90,12 @@ public class BasicEnemyBehavior : MonoBehaviour
             canAttack = false;
             StartCoroutine("attackDuration");
             }
+        }
+        if (collision.gameObject.name == "playerAttackZone")
+        {
+            if (player.isAttacking)
+                health--;
+                
         }
     }
     private void OnCollisionExit2D(Collision2D collision)

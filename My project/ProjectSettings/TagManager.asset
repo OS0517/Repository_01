@@ -12,6 +12,7 @@ TagManager:
   - HealthItem
   - gravityPlate
   - vanishingPlate
+  - attackZone
   layers:
   - Default
   - TransparentFX

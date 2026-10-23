@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public float dashCost = 33.3f;
     public float dashCooldownTime = 2.0f;
     public float rotationSpeed = 0.1f;
+    public float switchSpeed = 3.0f;
 
     public bool isAttacking = false;
     public bool canAttack = false;
@@ -46,6 +47,7 @@ public class PlayerController : MonoBehaviour
     public bool regenStamina = false;
     public bool onGround = true;
     public bool gravitySwitch = false;
+    public bool canGravitySwitch = false;
     public bool doubleJump = true;
 
     Ray2D jumpRay;
@@ -243,7 +245,11 @@ public class PlayerController : MonoBehaviour
     }
     public void GravitySwitch()
     {
-        
+        if (canGravitySwitch)
+        {
+            gravitySwitch = !gravitySwitch;
+            StartCoroutine("gravitySwitchCooldown");
+        }
     }
 
     IEnumerator attackDuration()
@@ -363,5 +369,12 @@ new Quaternion(0, 0, -90f, 90));
     {
         yield return new WaitForSeconds(dashCooldownTime);
         canDash = true;
+    }
+    IEnumerator gravitySwitchCooldown()
+    {
+        canGravitySwitch = false;
+
+        yield return new WaitForSeconds(switchSpeed);
+        canGravitySwitch = true;
     }
 }

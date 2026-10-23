@@ -115,6 +115,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "GravitySwitch",
+                    "type": "Button",
+                    "id": "b7289316-2902-401f-b5c7-1436f7d3819d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "FirstSkill",
                     "type": "Button",
                     "id": "3dd18d9a-3602-44e3-b838-c16ac629149c",
@@ -668,6 +677,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "ThirdSkill",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d39b53e-c401-4559-8eb7-92e7ce3698d1",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GravitySwitch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f968663c-a129-4261-b718-dd59fae5bfb8",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GravitySwitch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

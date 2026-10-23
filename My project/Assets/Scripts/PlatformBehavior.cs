@@ -1,14 +1,16 @@
 using JetBrains.Annotations;
 using System;
 using System.Collections;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class PlatformBehavior : MonoBehaviour
 {
 
     public float time = 5.0f;
+    public float riseOrFallSpeed = 0.5f;
 
-    public bool rising = false;
+    public bool rising = true;
 
     public Rigidbody2D rb;
     public SpriteRenderer sr;
@@ -26,15 +28,16 @@ public class PlatformBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        rb.linearVelocityY = riseOrFallSpeed;
         if (rising)
         {
             if (rising == true)
             {
-                rb.linearVelocityY = -0.5f;
+                riseOrFallSpeed = -riseOrFallSpeed;
             }
         }
         else
-            rb.linearVelocityY = 0.5f;
+            riseOrFallSpeed = +riseOrFallSpeed;
     }
 
     IEnumerator gravityPlateRising()
